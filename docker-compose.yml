@@ -1,0 +1,33 @@
+version: "3"
+services:
+  notebook:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    volumes: 
+      - ./:/home/jovyan/work
+    working_dir: ${WORKING_DIR}
+    environment: 
+      - HOME=${WORKING_DIR}
+      - JUPYTER_ENABLE_LAB=yes
+    command: start-notebook.sh --NotebookApp.token=''
+    container_name: katsu1110-atmacup8
+    restart: always
+
+  mlflow:
+    build:
+      context: .
+      dockerfile: Dockerfile_mlflow
+    volumes:
+      - ./working/mlruns:${WORKING_DIR}/working/mlruns
+    working_dir: ${WORKING_DIR}
+    depends_on:
+      - notebook
+    environment:
+      HOME: ${WORKING_DIR}
+    ports:
+      - "5000:5000"
+    command: mlflow server --backend-store-uri ${WORKING_DIR}/working/mlruns --default-artifact-root ${WORKING_DIR}/working/mlruns --host 0.0.0.0 --port 5000
+    restart: always

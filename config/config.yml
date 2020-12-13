@@ -1,0 +1,47 @@
+path: /home/jovyan/work/
+
+experiment: 1
+mode: full
+seed: 1220
+
+fit:
+    adversarial_validation: 1
+    task: regression
+    nsa: 1
+    nfold: 5
+    cv: StratifiedKFold2
+
+catboost:
+    learning_rate: 0.04
+    iterations: 24000
+    colsample_bylevel: 0.08
+    early_stopping_rounds: 40
+
+xgboost:
+    learning_rate: 0.01
+    n_estimators: 24000
+    gamma: 0.24
+    alpha: 0
+    lambda_val: 1
+    max_depth: 4
+    subsample: 1
+    min_child_weight: 4
+    colsample_bytree: 0.1
+    early_stopping_rounds: 40
+
+lightgbm:
+    learning_rate: 0.08
+    n_estimators: 24000
+    num_leaves: 128
+    max_depth: 4
+    subsample: 1
+    subsample_freq: 4
+    feature_fraction: 0.12
+    lambda_l1: 1
+    lambda_l2: 1
+    early_stopping_rounds: 40
+
+linear:
+    alpha: 80
+    max_iter: 8000
+    tol: 0.0001
